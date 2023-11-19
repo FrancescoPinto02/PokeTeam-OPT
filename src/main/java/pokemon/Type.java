@@ -167,6 +167,12 @@ public class Type {
     public String toString() {
         return "Type{" +
                 "name=" + name +
+                ", superEffective=" + superEffective +
+                ", notVeryEffective=" + notVeryEffective +
+                ", noEffect=" + noEffect +
+                ", weakTo=" + weakTo +
+                ", resist=" + resist +
+                ", immuneTo=" + immuneTo +
                 '}';
     }
 }
