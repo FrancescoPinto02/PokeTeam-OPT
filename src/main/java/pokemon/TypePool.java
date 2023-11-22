@@ -51,13 +51,19 @@ public class TypePool {
         }
     }
 
-    //Getter and Setter
-    public Set<Type> getTypes() {
-        return types;
+    //Get the specified type from the pool
+    public Type getType(PokemonType type){
+        for(Type t : types){
+            if(t.getName() == type){
+                return t;
+            }
+        }
+        return new Type(PokemonType.UNDEFINED);
     }
 
-    public void setTypes(Set<Type> types) {
-        this.types = types;
+    //Get the specified type specified as String from the pool
+    public Type getType(String type){
+        return getType(mapToPokemonType(type.toUpperCase()));
     }
 
     //Add a type to the pool
@@ -72,7 +78,12 @@ public class TypePool {
 
     //Map a String to the equivalent enum PokemonType
     private static PokemonType mapToPokemonType(String type){
-        return PokemonType.valueOf(type);
+        try{
+            return PokemonType.valueOf(type);
+        }catch (IllegalArgumentException e){
+            e.printStackTrace();
+            return PokemonType.UNDEFINED;
+        }
     }
 
     //split the parameter and use mapToPokemonType for all the pieces
