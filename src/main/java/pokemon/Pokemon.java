@@ -4,6 +4,8 @@ import java.util.Objects;
 
 public class Pokemon {
 
+    //TODO implementare gli attributi e i metodi per calcolare le resistenze e le debolezze dei pokemon
+
     private int number; //national Pokédex number
     private String name;
     private Type type1;
@@ -21,9 +23,9 @@ public class Pokemon {
     public Pokemon(int number, String name, Type type1, Type type2, int total, int hp, int attack, int defense, int specialAttack, int specialDefense, int speed) {
         this.number = number;
         this.name = name;
-        this.type1 = type1;
-        this.type2 = type2;
-        this.total = total;
+        this.type1 = (type1==null) ? new Type(PokemonType.UNDEFINED) : type1;
+        this.type2 = (type2==null) ? new Type(PokemonType.UNDEFINED) : type2;
+        this.total = (total==(hp + attack + defense + specialAttack + specialDefense + speed)) ? total : (hp + attack + defense + specialAttack + specialDefense + speed);
         this.hp = hp;
         this.attack = attack;
         this.defense = defense;
@@ -33,22 +35,11 @@ public class Pokemon {
     }
 
     public Pokemon(int number, String name, Type type1, Type type2, int hp, int attack, int defense, int specialAttack, int specialDefense, int speed) {
-        this.number = number;
-        this.name = name;
-        this.type1 = type1;
-        this.type2 = type2;
-        this.total = hp + attack + defense + specialAttack + specialDefense + speed;
-        this.hp = hp;
-        this.attack = attack;
-        this.defense = defense;
-        this.specialAttack = specialAttack;
-        this.specialDefense = specialDefense;
-        this.speed = speed;
+        this(number, name, type1, type2, (hp + attack + defense + specialAttack + specialDefense + speed), hp, attack, defense, specialAttack, specialDefense, speed);
     }
 
 
     //Getter and Setters
-
     public int getNumber() {
         return number;
     }
