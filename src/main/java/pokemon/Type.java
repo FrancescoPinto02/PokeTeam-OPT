@@ -41,7 +41,7 @@ public class Type {
     }
 
 
-    //Getter and Setter
+    //Getters and Setters
     public PokemonType getName() {
         return name;
     }
@@ -102,54 +102,78 @@ public class Type {
 
     //Add and Remove Types relationships
     public void addSuperEffective(PokemonType type){
-        this.superEffective.add(type);
+        if(type!=PokemonType.UNDEFINED){
+            this.superEffective.add(type);
+        }
     }
 
     public void removeSuperEffective(PokemonType type){
-        this.superEffective.remove(type);
+        if(type!=PokemonType.UNDEFINED){
+            this.superEffective.remove(type);
+        }
     }
 
     public void addNotVeryEffective(PokemonType type){
-        this.notVeryEffective.add(type);
+        if(type!=PokemonType.UNDEFINED){
+            this.notVeryEffective.add(type);
+        }
     }
 
     public void removeNotVeryEffective(PokemonType type){
-        this.notVeryEffective.remove(type);
+        if(type!=PokemonType.UNDEFINED){
+            this.notVeryEffective.remove(type);
+        }
     }
 
     public void addNoEffect(PokemonType type){
-        this.noEffect.add(type);
+        if(type!=PokemonType.UNDEFINED){
+            this.noEffect.add(type);
+        }
     }
 
     public void removeNoEffect(PokemonType type){
-        this.noEffect.remove(type);
+        if(type!=PokemonType.UNDEFINED){
+            this.noEffect.remove(type);
+        }
     }
 
     public void addWeakTo(PokemonType type){
-        this.weakTo.add(type);
+        if(type!=PokemonType.UNDEFINED){
+            this.weakTo.add(type);
+        }
     }
 
     public void removeWeakTo(PokemonType type){
-        this.weakTo.remove(type);
+        if(type!=PokemonType.UNDEFINED){
+            this.weakTo.remove(type);
+        }
     }
 
     public void addResist(PokemonType type){
-        this.resist.add(type);
+        if(type!=PokemonType.UNDEFINED){
+            this.resist.add(type);
+        }
     }
 
     public void removeResist(PokemonType type){
-        this.resist.remove(type);
+        if(type!=PokemonType.UNDEFINED){
+            this.resist.remove(type);
+        }
     }
 
     public void addImmuneTo(PokemonType type){
-        this.immuneTo.add(type);
+        if(type!=PokemonType.UNDEFINED){
+            this.immuneTo.add(type);
+        }
     }
 
     public void removeImmuneTo(PokemonType type){
-        this.immuneTo.remove(type);
+        if(type!=PokemonType.UNDEFINED){
+            this.immuneTo.remove(type);
+        }
     }
 
-    //Utility
+    //Utilities
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -165,8 +189,6 @@ public class Type {
 
     @Override
     public String toString() {
-        return "Type{" +
-                "name=" + name +
-                '}';
+        return "Type: [" + name + "] ";
     }
 }
