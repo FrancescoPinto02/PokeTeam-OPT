@@ -16,12 +16,17 @@ public class TypePool {
     private Set<Type> types;
     private static final String JSON_TYPE_FILE = "src/main/java/pokemon/types.json";
 
-    //Constructor: Read types from the JSON file with dir JSON_TYPE_FILE
+    //Constructor
     public TypePool(){
-        types = new HashSet<>();
+        types = readTypesFromFile(JSON_TYPE_FILE);
+    }
+
+    //Read Types from specified files, add them in a set and return the set
+    private Set<Type> readTypesFromFile(String fileDirectory){
+        Set<Type> typesSet = new HashSet<>();
         try {
             //Read JSON file
-            FileReader reader = new FileReader(JSON_TYPE_FILE);
+            FileReader reader = new FileReader(fileDirectory);
 
             //Parsing the JSON file
             JSONParser parser = new JSONParser();
@@ -42,13 +47,15 @@ public class TypePool {
 
                 //Add the type in the pool
                 Type type = new Type(name, superEffective, notVeryEffective, noEffect, weakTo, resists, immuneTo);
-                types.add(type);
+                typesSet.add(type);
             }
             reader.close();
 
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
+
+        return typesSet;
     }
 
     //Get the specified type from the pool
