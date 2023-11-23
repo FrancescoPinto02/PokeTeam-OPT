@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 public class Pokedex {
 
@@ -20,7 +19,7 @@ public class Pokedex {
 
     public Pokedex() {
         typePool = new TypePool();
-        pokemons = new HashMap<Integer, List<Pokemon>>();
+        pokemons = new HashMap<>();
 
         try{
             //Read JSON file
@@ -68,23 +67,40 @@ public class Pokedex {
 
     }
 
-    //Retrieve a list of pokemons with number = number from HashMap pokemons
-    //ATTENTION: The list can contains variant version of a pokemon that have the same number but can differ for name, types and stats
+    //Retrieve a list of Pokémon with number = number from HashMap pokemon
+    //ATTENTION: The list can contain variant version of a Pokémon that have the same number but can differ for name, types and stats
     public List<Pokemon> getPokemon(int number){
         return pokemons.getOrDefault(number, new ArrayList<>());
+    }
+
+    //Return the variant of the pokemon with the specified number at the specified index position
+    //ATTENTION: Can return null
+    public Pokemon getPokemon(int number, int index){
+        List<Pokemon> pokemonList = getPokemon(number);
+        if(pokemonList.isEmpty()){
+            return null; //return null if there is not pokemon with the specified number
+        }
+
+        if(index >= 0 && index < pokemonList.size()){
+            return pokemonList.get(index); //return the Pokémon at the specified index if it is in range
+        }
+        else{
+            return pokemonList.get(0); //return the first pokemon of the list if the index is not in range
+        }
     }
 
     //Add a pokemon to the HashMap pokemons
     public void addPokemon(Pokemon pokemon){
         int number = pokemon.getNumber();
 
+        //Check if there is already a list of pokemon with this key
         if(pokemons.containsKey(number)){
-            pokemons.get(number).add(pokemon);
+            pokemons.get(number).add(pokemon); //add the pokemon at the existent list
         }
         else{
-            List<Pokemon> pokemonList = new ArrayList<>();
-            pokemonList.add(pokemon);
-            pokemons.put(number,pokemonList);
+            List<Pokemon> pokemonList = new ArrayList<>(); //create a new list
+            pokemonList.add(pokemon); //add pokemon at the new list
+            pokemons.put(number,pokemonList); //add the new list in the map
         }
     }
 
