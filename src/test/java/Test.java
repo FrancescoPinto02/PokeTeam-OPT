@@ -1,4 +1,5 @@
 import pokemon.Pokedex;
+import pokemon.Pokemon;
 import pokemon.Type;
 import pokemon.TypePool;
 
@@ -9,9 +10,10 @@ public class Test {
 
     public static void main(String[] args){
         Pokedex pokedex = new Pokedex();
-        System.out.println(pokedex.getPokemon(6));
-        System.out.println(pokedex.getPokemon(55));
-        System.out.println(pokedex.getPokemon(341));
-        System.out.println(pokedex.getPokemon(734));
+        Pokemon pokemon = pokedex.getPokemon(345, 0);
+        System.out.println(pokemon);
+        System.out.println("Resistenze="+pokemon.getResistances());
+        System.out.println("Debolezze="+pokemon.getWeaknesses());
+
     }
 }
