@@ -1,5 +1,6 @@
 package pokemon;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -8,15 +9,20 @@ public class Type {
     private PokemonType name;
 
     //For all the types not included in Offensive Properties nor Defensive Properties the damage dealt/received is x1
+
+
+
     //Offensive Properties
     private Set<PokemonType> superEffective; //damage dealt x2
     private Set<PokemonType> notVeryEffective; //damage dealt x1/2
     private Set<PokemonType> noEffect; //damage dealt x0
+    private Set<PokemonType> normalOffensiveEffect; //damage dealt x1
 
     //Defensive properties
     private Set<PokemonType> weakTo; //damage received x2
     private Set<PokemonType> resist; //damage received x1/2
     private Set<PokemonType> immuneTo; //damage received x0
+    private Set<PokemonType> normalDefensiveEffect; //damage received x1
 
 
     //Constructors
@@ -28,6 +34,8 @@ public class Type {
         this.weakTo = weakTo;
         this.resist = resist;
         this.immuneTo = immuneTo;
+        this.normalOffensiveEffect = calculateNormalOffensiveEffect();
+        this.normalDefensiveEffect = calculateNormalDefensiveEffect();
     }
 
     public Type(PokemonType name) {
@@ -40,6 +48,23 @@ public class Type {
         this.immuneTo = new HashSet<>();
     }
 
+    //Calcola tutti i tipi con moltiplicatore offensivo pari a x1
+    private Set<PokemonType> calculateNormalOffensiveEffect(){
+        Set<PokemonType> normalEffect = new HashSet<>(Arrays.asList(PokemonType.values()));
+        normalEffect.removeAll(this.superEffective);
+        normalEffect.removeAll(this.notVeryEffective);
+        normalEffect.removeAll(this.noEffect);
+        return normalEffect;
+    }
+
+    //Calcola tutti i tipi con moltiplicatore difensivo pari a x1
+    private Set<PokemonType> calculateNormalDefensiveEffect(){
+        Set<PokemonType> normalEffect = new HashSet<>(Arrays.asList(PokemonType.values()));
+        normalEffect.removeAll(this.weakTo);
+        normalEffect.removeAll(this.resist);
+        normalEffect.removeAll(this.immuneTo);
+        return normalEffect;
+    }
 
     //Getters and Setters
     public PokemonType getName() {
@@ -98,7 +123,21 @@ public class Type {
         this.immuneTo = immuneTo;
     }
 
+    public Set<PokemonType> getNormalOffensiveEffect() {
+        return normalOffensiveEffect;
+    }
 
+    public void setNormalOffensiveEffect(Set<PokemonType> normalOffensiveEffect) {
+        this.normalOffensiveEffect = normalOffensiveEffect;
+    }
+
+    public Set<PokemonType> getNormalDefensiveEffect() {
+        return normalDefensiveEffect;
+    }
+
+    public void setNormalDefensiveEffect(Set<PokemonType> normalDefensiveEffect) {
+        this.normalDefensiveEffect = normalDefensiveEffect;
+    }
 
     //Add and Remove Types relationships
     public void addSuperEffective(PokemonType type){
