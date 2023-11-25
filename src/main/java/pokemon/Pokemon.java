@@ -5,9 +5,6 @@ import java.util.Objects;
 import java.util.Set;
 
 public class Pokemon {
-
-    //TODO implementare gli attributi e i metodi per calcolare le resistenze e le debolezze dei pokemon
-
     private int number; //national Pokédex number
     private String name;
     private Type type1;
