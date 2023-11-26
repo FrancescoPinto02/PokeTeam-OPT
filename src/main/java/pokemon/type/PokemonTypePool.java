@@ -80,6 +80,20 @@ public class PokemonTypePool {
         this.types = types;
     }
 
+    public PokemonType getType(PokemonTypeName type){
+        for(PokemonType x : types){
+            if(x.getName() == type){
+                return x;
+            }
+        }
+        return new PokemonType(PokemonTypeName.UNDEFINED);
+    }
+
+    //Get the PokemonType specified as String from the pool
+    public PokemonType getType(String type){
+        return getType(mapToPokemonTypeName(type.toUpperCase()));
+    }
+
     private static PokemonTypeName mapToPokemonTypeName(String type){
         try{
             return PokemonTypeName.valueOf(type);

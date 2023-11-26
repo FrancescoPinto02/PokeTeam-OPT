@@ -1,14 +1,16 @@
 package pokemon;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import pokemon.type.PokemonType;
+import pokemon.type.PokemonTypeMultiplier;
+import pokemon.type.PokemonTypeName;
+
+import java.util.*;
 
 public class Pokemon {
     private int number; //national Pokédex number
     private String name;
-    private Type type1;
-    private Type type2;
+    private PokemonType type1;
+    private PokemonType type2;
     private int total; //sum of all the stats
     private int hp;
     private int attack;
@@ -17,16 +19,16 @@ public class Pokemon {
     private int specialDefense;
     private int speed;
 
-    private Set<PokemonType> resistances;
-    private Set<PokemonType> weaknesses;
+    private Set<PokemonTypeName> resistances;
+    private Set<PokemonTypeName> weaknesses;
 
 
     //Constructors
-    public Pokemon(int number, String name, Type type1, Type type2, int total, int hp, int attack, int defense, int specialAttack, int specialDefense, int speed) {
+    public Pokemon(int number, String name, PokemonType type1, PokemonType type2, int total, int hp, int attack, int defense, int specialAttack, int specialDefense, int speed) {
         this.number = number;
         this.name = name;
-        this.type1 = (type1==null) ? new Type(PokemonType.UNDEFINED) : type1;
-        this.type2 = (type2==null) ? new Type(PokemonType.UNDEFINED) : type2;
+        this.type1 = (type1==null) ? new PokemonType(PokemonTypeName.UNDEFINED) : type1;
+        this.type2 = (type2==null) ? new PokemonType(PokemonTypeName.UNDEFINED) : type2;
         this.total = (total==(hp + attack + defense + specialAttack + specialDefense + speed)) ? total : (hp + attack + defense + specialAttack + specialDefense + speed);
         this.hp = hp;
         this.attack = attack;
@@ -34,34 +36,48 @@ public class Pokemon {
         this.specialAttack = specialAttack;
         this.specialDefense = specialDefense;
         this.speed = speed;
+        resistances = new HashSet<>();
+        weaknesses = new HashSet<>();
         calculateResistances();
         calculateWeaknesses();
     }
 
-    public Pokemon(int number, String name, Type type1, Type type2, int hp, int attack, int defense, int specialAttack, int specialDefense, int speed) {
+    public Pokemon(int number, String name, PokemonType type1, PokemonType type2, int hp, int attack, int defense, int specialAttack, int specialDefense, int speed) {
         this(number, name, type1, type2, (hp + attack + defense + specialAttack + specialDefense + speed), hp, attack, defense, specialAttack, specialDefense, speed);
     }
 
     //Calcola automaticamente tutte le resistenze in base ai due Type del pokemon
     private void calculateResistances(){
-        resistances = new HashSet<>();
-        resistances.addAll(type1.getImmuneTo());
+        Set<PokemonTypeName> allTypes = EnumSet.allOf(PokemonTypeName.class);
+        allTypes.remove(PokemonTypeName.UNDEFINED);
+        Map<PokemonTypeName, Double> defProperties1 = type1.getDefensiveProperties();
+        boolean monotype = type2.getName() == PokemonTypeName.UNDEFINED;
 
-        //Se il pokemon ha solo un tipo allora le resistenze sono uguali alle resistenze di quel tipo
-        if(type2.getName()==PokemonType.UNDEFINED){
-            resistances.addAll(type1.getResist());
-        }
-        else{
-            resistances.addAll(type2.getImmuneTo());
-            for(PokemonType x : type1.getResist()){
-                if(type2.getResist().contains(x) || type2.getNormalDefensiveEffect().contains(x)){
+        if(monotype){
+            for(PokemonTypeName x : allTypes){
+                Double mul1 = defProperties1.get(x);
+                if(mul1.equals(PokemonTypeMultiplier.IMMUNE_TO) || mul1.equals(PokemonTypeMultiplier.RESISTS)){
                     resistances.add(x);
                 }
             }
+        }
+        else{
+            Map<PokemonTypeName, Double> defProperties2 = type2.getDefensiveProperties();
 
-            for(PokemonType x : type1.getNormalDefensiveEffect()){
-                if(type2.getResist().contains(x)){
+            for(PokemonTypeName x : allTypes){
+                Double mul1 = defProperties1.get(x);
+                Double mul2 = defProperties2.get(x);
+
+                if(mul1.equals(PokemonTypeMultiplier.IMMUNE_TO) || mul2.equals(PokemonTypeMultiplier.IMMUNE_TO)){
                     resistances.add(x);
+                }
+                else if(mul1.equals(PokemonTypeMultiplier.NORMAL_EFFECTIVENESS) && mul2.equals(PokemonTypeMultiplier.RESISTS)){
+                    resistances.add(x);
+                }
+                else if(mul1.equals(PokemonTypeMultiplier.RESISTS)){
+                    if(mul2.equals(PokemonTypeMultiplier.RESISTS) || mul2.equals(PokemonTypeMultiplier.NORMAL_EFFECTIVENESS)){
+                        resistances.add(x);
+                    }
                 }
             }
         }
@@ -69,20 +85,32 @@ public class Pokemon {
 
     //Calcola automaticamente tutte le debolezze in base ai due type del pokemon
     private void calculateWeaknesses(){
-        weaknesses = new HashSet<>();
+        Set<PokemonTypeName> allTypes = EnumSet.allOf(PokemonTypeName.class);
+        allTypes.remove(PokemonTypeName.UNDEFINED);
+        Map<PokemonTypeName, Double> defProperties1 = type1.getDefensiveProperties();
+        boolean monotype = type2.getName() == PokemonTypeName.UNDEFINED;
 
-        if(type2.getName()==PokemonType.UNDEFINED){
-            weaknesses.addAll(type1.getWeakTo());
-        }
-        else{
-            for(PokemonType x : type1.getWeakTo()){
-                if(type2.getWeakTo().contains(x) || type2.getNormalDefensiveEffect().contains(x)){
+        if(monotype){
+            for(PokemonTypeName x : allTypes){
+                Double mul1 = defProperties1.get(x);
+                if(mul1.equals(PokemonTypeMultiplier.WEAK_TO)){
                     weaknesses.add(x);
                 }
             }
+        }
+        else{
+            Map<PokemonTypeName, Double> defProperties2 = type2.getDefensiveProperties();
 
-            for(PokemonType x : type1.getNormalDefensiveEffect()){
-                if(type2.getWeakTo().contains(x)){
+            for(PokemonTypeName x : allTypes){
+                Double mul1 = defProperties1.get(x);
+                Double mul2 = defProperties2.get(x);
+
+                if(mul1.equals(PokemonTypeMultiplier.WEAK_TO)){
+                    if(mul2.equals(PokemonTypeMultiplier.WEAK_TO) || mul2.equals(PokemonTypeMultiplier.NORMAL_EFFECTIVENESS)){
+                        weaknesses.add(x);
+                    }
+                }
+                else if(mul1.equals(PokemonTypeMultiplier.NORMAL_EFFECTIVENESS) && mul2.equals(PokemonTypeMultiplier.WEAK_TO)){
                     weaknesses.add(x);
                 }
             }
@@ -106,20 +134,28 @@ public class Pokemon {
         this.name = name;
     }
 
-    public Type getType1() {
+    public PokemonType getType1() {
         return type1;
     }
 
-    public void setType1(Type type1) {
+    public void setType1(PokemonType type1) {
         this.type1 = type1;
     }
 
-    public Type getType2() {
+    public PokemonType getType2() {
         return type2;
     }
 
-    public void setType2(Type type2) {
+    public void setType2(PokemonType type2) {
         this.type2 = type2;
+    }
+
+    public void setResistances(Set<PokemonTypeName> resistances) {
+        this.resistances = resistances;
+    }
+
+    public void setWeaknesses(Set<PokemonTypeName> weaknesses) {
+        this.weaknesses = weaknesses;
     }
 
     public int getTotal() {
@@ -178,20 +214,12 @@ public class Pokemon {
         this.speed = speed;
     }
 
-    public Set<PokemonType> getResistances() {
+    public Set<PokemonTypeName> getResistances() {
         return resistances;
     }
 
-    public void setResistances(Set<PokemonType> resistances) {
-        this.resistances = resistances;
-    }
-
-    public Set<PokemonType> getWeaknesses() {
+    public Set<PokemonTypeName> getWeaknesses() {
         return weaknesses;
-    }
-
-    public void setWeaknesses(Set<PokemonType> weaknesses) {
-        this.weaknesses = weaknesses;
     }
 
     //Utility

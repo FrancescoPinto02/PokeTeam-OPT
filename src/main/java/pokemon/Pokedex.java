@@ -4,6 +4,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import pokemon.type.PokemonType;
+import pokemon.type.PokemonTypeName;
+import pokemon.type.PokemonTypePool;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -13,17 +16,17 @@ import java.util.List;
 
 public class Pokedex {
 
-    private static final String JSON_POKEDEX_FILE = "src/main/java/pokemon/pokedex_data.json";
-    private TypePool typePool;
+    private static final String DEFAULT_POKEDEX_FILE = "src/main/java/pokemon/pokedex_data.json";
+    private PokemonTypePool typePool;
     private HashMap<Integer, List<Pokemon>> pokemons;
 
     public Pokedex() {
-        typePool = new TypePool();
+        typePool = new PokemonTypePool();
         pokemons = new HashMap<>();
 
         try{
             //Read JSON file
-            FileReader reader = new FileReader(JSON_POKEDEX_FILE);
+            FileReader reader = new FileReader(DEFAULT_POKEDEX_FILE);
 
             //Parsing the JSON file
             JSONParser parser = new JSONParser();
@@ -38,13 +41,13 @@ public class Pokedex {
                 String name = (String) jsonObject.get("Name");
 
                 String[] types = ((String) jsonObject.get("Type")).split(" ");
-                Type type1 = typePool.getType(types[0]);
-                Type type2;
+                PokemonType type1 = typePool.getType(types[0]);
+                PokemonType type2;
                 if(types.length > 1){
                     type2 = typePool.getType(types[1]);
                 }
                 else{
-                    type2 = new Type(PokemonType.UNDEFINED);
+                    type2 = new PokemonType(PokemonTypeName.UNDEFINED);
                 }
 
                 int total = Integer.parseInt((String) jsonObject.get("Total"));
