@@ -6,8 +6,7 @@ public class Test {
     public static void main(String[] args){
         Pokedex pokedex = new Pokedex();
         Pokemon pokemon = pokedex.getPokemon(543, 0);
-        System.out.println(pokemon);
-        System.out.println("Resistances: " + pokemon.getResistances());
-        System.out.println("Weaknesses: " + pokemon.getWeaknesses());
+        System.out.println(pokedex);
+
     }
 }
