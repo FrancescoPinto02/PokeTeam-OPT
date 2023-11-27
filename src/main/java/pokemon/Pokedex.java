@@ -10,15 +10,14 @@ import pokemon.type.PokemonTypePool;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Pokedex {
 
     private static final String DEFAULT_POKEDEX_FILE = "src/main/java/pokemon/pokedex_data.json";
     private PokemonTypePool typePool;
     private HashMap<Integer, List<Pokemon>> pokemons;
+    private int maxNumber;
 
     public Pokedex() {
         typePool = new PokemonTypePool();
@@ -32,12 +31,14 @@ public class Pokedex {
             JSONParser parser = new JSONParser();
             JSONArray jsonArray = (JSONArray) parser.parse(reader);
 
+            int number = 0;
+
             //Iterate the array
             for(Object obj : jsonArray){
                 JSONObject jsonObject = (JSONObject) obj; //retrieve object
 
                 //Obtain the fields
-                int number = Integer.parseInt((String) jsonObject.get("#"));
+                number = Integer.parseInt((String) jsonObject.get("#"));
                 String name = (String) jsonObject.get("Name");
 
                 String[] types = ((String) jsonObject.get("Type")).split(" ");
@@ -62,12 +63,16 @@ public class Pokedex {
                 addPokemon(pokemon);
             }
             reader.close();
+            this.maxNumber = number;
         }
         catch (IOException | ParseException e){
             e.printStackTrace();
         }
 
+    }
 
+    public int getMaxNumber() {
+        return maxNumber;
     }
 
     //Retrieve a list of Pokémon with number = number from HashMap pokemon
