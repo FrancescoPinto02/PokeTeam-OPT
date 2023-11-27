@@ -133,4 +133,8 @@ public class PokemonTypePool {
         }
     }
 
+    @Override
+    public String toString() {
+        return types.toString();
+    }
 }
