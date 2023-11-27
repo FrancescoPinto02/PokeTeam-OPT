@@ -8,6 +8,9 @@ public class SixPokemonTeam extends PokemonTeam{
 
     private static final int MAX_TEAM_MEMBERS = 6;
 
+    public SixPokemonTeam() {
+    }
+
     public SixPokemonTeam(List<Pokemon> members){
         super();
         for(int i=0; i < members.size() && !isFull(); i++){
