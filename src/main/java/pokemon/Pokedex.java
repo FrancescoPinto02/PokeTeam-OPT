@@ -109,8 +109,6 @@ public class Pokedex {
 
     @Override
     public String toString() {
-        return "Pokedex{" +
-                "pokemons=" + pokemons +
-                '}';
+        return pokemons.toString();
     }
 }
