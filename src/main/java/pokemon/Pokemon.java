@@ -238,6 +238,6 @@ public class Pokemon {
 
     @Override
     public String toString() {
-        return "#" + number + " " + name + " (" + type1 + ", " + type2 + ")";
+        return "#" + number + " " + name + " (" + type1 + ", " + type2 + ") Total Stats=" + total ;
     }
 }
