@@ -60,10 +60,6 @@ public class PokemonType {
 
     @Override
     public String toString() {
-        return "PokemonType{" +
-                "name=" + name +
-                ", offensiveProperties=" + offensiveProperties +
-                ", DefensiveProperties=" + DefensiveProperties +
-                '}';
+        return "" + name;
     }
 }
