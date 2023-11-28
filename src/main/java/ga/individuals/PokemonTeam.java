@@ -75,6 +75,7 @@ public class PokemonTeam extends Individual {
     public Individual clone() throws CloneNotSupportedException {
         PokemonTeam clone = (PokemonTeam) super.clone();
 
+        //Note: it doesn`t clone the pokemon
         if (this.members != null) {
             clone.members = new ArrayList<>(this.members);
         }
