@@ -6,11 +6,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class PokemonTeam {
+public class PokemonTeam {
+    private static final int MAX_TEAM_MEMBERS = 6;
+
     private List<Pokemon> members;
 
     public PokemonTeam(){
         this.members = new ArrayList<>();
+    }
+
+    public PokemonTeam(List<Pokemon> members){
+        this();
+        for(int i=0; i < members.size() && !isFull(); i++){
+            addMember(members.get(i));
+        }
     }
 
     public List<Pokemon> getMembers() {
@@ -21,10 +30,26 @@ public abstract class PokemonTeam {
         this.members = members;
     }
 
-    public abstract boolean addMember(Pokemon pokemon);
-    public abstract boolean removeMember(Pokemon pokemon);
-    public abstract boolean changeMember(Pokemon pokemonToChange, Pokemon newPokemon);
-    public abstract boolean isFull();
+    public boolean addMember(Pokemon pokemon){
+        if(isFull()){
+            return false;
+        }
+        else{
+            return this.getMembers().add(pokemon);
+        }
+    }
+
+    public boolean removeMember(Pokemon pokemon){
+        return this.getMembers().remove(pokemon);
+    }
+
+    public boolean changeMember(Pokemon pokemonToChange, Pokemon newPokemon){
+        return removeMember(pokemonToChange) && addMember(newPokemon);
+    }
+
+    public boolean isFull(){
+        return this.getMembers().size() >= MAX_TEAM_MEMBERS;
+    };
 
     @Override
     public boolean equals(Object o) {

@@ -1,15 +1,22 @@
 package pokemon.team;
 
 import pokemon.Pokedex;
+import pokemon.Pokemon;
+import pokemon.PokemonGenerator;
 
-public abstract class PokemonTeamGenerator<T extends PokemonTeam> {
-    private static Pokedex pokedex = new Pokedex();
+import java.util.List;
+import java.util.Random;
 
-    protected static Pokedex getPokedex() {
-        return pokedex;
+public class PokemonTeamGenerator {
+
+
+    public static PokemonTeam generatePokemonTeam(){
+        PokemonTeam team = new PokemonTeam();
+        while(!team.isFull()){
+            team.addMember(PokemonGenerator.generatePokemon());
+        }
+        return team;
     }
-
-    public abstract T generatePokemonTeam();
 
 
 }
