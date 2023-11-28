@@ -1,4 +1,4 @@
-import pokemon.team.PokemonTeam;
+import ga.individuals.PokemonTeam;
 import pokemon.team.PokemonTeamGenerator;
 
 public class Test {

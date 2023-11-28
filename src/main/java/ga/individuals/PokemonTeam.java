@@ -1,4 +1,4 @@
-package pokemon.team;
+package ga.individuals;
 
 import pokemon.core.Pokemon;
 
@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class PokemonTeam {
+public class PokemonTeam extends Individual {
     private static final int MAX_TEAM_MEMBERS = 6;
 
     private List<Pokemon> members;
@@ -69,5 +69,16 @@ public class PokemonTeam {
         return "PokemonTeam{" +
                 "members=" + members +
                 '}';
+    }
+
+    @Override
+    public Individual clone() throws CloneNotSupportedException {
+        PokemonTeam clone = (PokemonTeam) super.clone();
+
+        if (this.members != null) {
+            clone.members = new ArrayList<>(this.members);
+        }
+
+        return clone;
     }
 }

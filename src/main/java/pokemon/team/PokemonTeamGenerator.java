@@ -1,5 +1,6 @@
 package pokemon.team;
 
+import ga.individuals.PokemonTeam;
 import pokemon.core.PokemonGenerator;
 
 public class PokemonTeamGenerator {
