@@ -1,4 +1,4 @@
-package pokemon;
+package pokemon.core;
 
 import pokemon.type.PokemonType;
 import pokemon.type.PokemonTypeMultiplier;

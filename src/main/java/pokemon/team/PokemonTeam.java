@@ -1,6 +1,6 @@
 package pokemon.team;
 
-import pokemon.Pokemon;
+import pokemon.core.Pokemon;
 
 import java.util.ArrayList;
 import java.util.List;

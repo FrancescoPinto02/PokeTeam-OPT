@@ -1,4 +1,6 @@
-package pokemon;
+package pokemon.core;
+
+import pokemon.pokedex.Pokedex;
 
 import java.util.List;
 import java.util.Random;

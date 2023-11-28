@@ -1,11 +1,6 @@
 package pokemon.team;
 
-import pokemon.Pokedex;
-import pokemon.Pokemon;
-import pokemon.PokemonGenerator;
-
-import java.util.List;
-import java.util.Random;
+import pokemon.core.PokemonGenerator;
 
 public class PokemonTeamGenerator {
 

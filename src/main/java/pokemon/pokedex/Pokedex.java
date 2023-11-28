@@ -1,9 +1,10 @@
-package pokemon;
+package pokemon.pokedex;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import pokemon.core.Pokemon;
 import pokemon.type.PokemonType;
 import pokemon.type.PokemonTypeName;
 import pokemon.type.PokemonTypePool;
@@ -14,7 +15,7 @@ import java.util.*;
 
 public class Pokedex {
 
-    private static final String DEFAULT_POKEDEX_FILE = "src/main/java/pokemon/pokedex_data.json";
+    private static final String DEFAULT_POKEDEX_FILE = "src/main/java/pokemon/pokedex/pokedex_data.json";
     private PokemonTypePool typePool;
     private HashMap<Integer, List<Pokemon>> pokemons;
     private int maxNumber;
