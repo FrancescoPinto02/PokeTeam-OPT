@@ -6,6 +6,7 @@ import ga.initializer.Initializer;
 import ga.operators.crossover.CrossoverOperator;
 import ga.operators.mutation.MutationOperator;
 import ga.operators.selection.SelectionOperator;
+import ga.results.Results;
 
 public abstract class GeneticAlgorithm<T extends Individual> {
 
