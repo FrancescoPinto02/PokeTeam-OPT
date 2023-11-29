@@ -5,11 +5,11 @@ import ga.population.FixedSizePopulation;
 import ga.population.Population;
 import pokemon.team.PokemonTeamGenerator;
 
-public class FixedSizePokemonTeamRandomInitializer extends Initializer<PokemonTeam>{
+public class PokemonTeamInitializer extends Initializer<PokemonTeam>{
 
     private final int numberOfIndividuals;
 
-    public FixedSizePokemonTeamRandomInitializer(int numberOfIndividuals) {
+    public PokemonTeamInitializer(int numberOfIndividuals) {
         this.numberOfIndividuals = Math.max(numberOfIndividuals, 1);
     }
 

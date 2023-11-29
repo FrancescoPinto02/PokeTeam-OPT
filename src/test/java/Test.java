@@ -1,13 +1,12 @@
 import ga.individuals.PokemonTeam;
-import pokemon.core.Pokemon;
-import pokemon.core.PokemonGenerator;
-import pokemon.team.PokemonTeamGenerator;
+import ga.initializer.PokemonTeamInitializer;
+import ga.population.FixedSizePopulation;
 
 public class Test {
 
     public static void main(String[] args) throws CloneNotSupportedException {
-        PokemonTeam team = PokemonTeamGenerator.generatePokemonTeam(PokemonTeam.MAX_TEAM_MEMBERS);
-        System.out.println(team);
-
+        PokemonTeamInitializer initializer = new PokemonTeamInitializer(10);
+        FixedSizePopulation<PokemonTeam> population = (FixedSizePopulation<PokemonTeam>) initializer.initialize();
+        System.out.println(population);
     }
 }
