@@ -228,7 +228,7 @@ public class Pokemon {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Pokemon pokemon = (Pokemon) o;
-        return number == pokemon.number && total == pokemon.total && Objects.equals(name, pokemon.name) && Objects.equals(type1, pokemon.type1) && Objects.equals(type2, pokemon.type2);
+        return number == pokemon.number && Objects.equals(name, pokemon.name);
     }
 
     @Override
@@ -238,6 +238,6 @@ public class Pokemon {
 
     @Override
     public String toString() {
-        return "#" + number + " " + name + " (" + type1 + ", " + type2 + ") Total Stats=" + total ;
+        return "#" + number + " " + name;
     }
 }

@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.*;
 
 public class Pokedex {
-
     private static final String DEFAULT_POKEDEX_FILE = "src/main/java/pokemon/pokedex/pokedex_data.json";
     private PokemonTypePool typePool;
     private HashMap<Integer, List<Pokemon>> pokemons;

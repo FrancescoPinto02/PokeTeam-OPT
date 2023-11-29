@@ -1,102 +1,70 @@
 package ga.individuals;
 
 import pokemon.core.Pokemon;
+import pokemon.core.PokemonGenerator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-//TODO: implementare la codifica degli individui come una matrice 6x2 con numeri e nomi di ogni pokemon
 
-public class PokemonTeam extends IntListIndividual {
-    private static final int MAX_TEAM_MEMBERS = 6;
-
-    private List<Pokemon> members;
+public class PokemonTeam extends PokemonArrayIndividual {
+    public static final int MAX_TEAM_MEMBERS = 6;
 
     public PokemonTeam(){
-        super(new int[MAX_TEAM_MEMBERS]);
-        this.members = new ArrayList<>();
+        super(new Pokemon[MAX_TEAM_MEMBERS]);
     }
 
-    public PokemonTeam(List<Pokemon> members){
+    public PokemonTeam(Pokemon[] coding){
         this();
-        for(int i=0; i < members.size() && !isFull(); i++){
-            Pokemon pokemon = members.get(i);
-            addMember(pokemon);
+        int i=0;
+
+        for(Pokemon p : coding){
+            if(i >= MAX_TEAM_MEMBERS){
+                break;
+            }
+            else{
+                if(p != null){
+                    this.coding[i]=p;
+                }
+                else{
+                    this.coding[i]= PokemonGenerator.generatePokemon();
+                }
+                i++;
+            }
+        }
+
+        while(i < MAX_TEAM_MEMBERS){
+            this.coding[i]=PokemonGenerator.generatePokemon();
+            i++;
         }
     }
 
-    public List<Pokemon> getMembers() {
-        return members;
+    public PokemonTeam(List<Pokemon> pokemonList){
+        this(pokemonList.toArray(new Pokemon[0]));
     }
 
-    public void setMembers(List<Pokemon> members) {
-        this.members = members;
-    }
-
-    public boolean addMember(Pokemon pokemon){
-        if(isFull()){
-            return false;
-
+    public Pokemon getMember(int index) {
+        if(index < 0  || index >= MAX_TEAM_MEMBERS){
+            return null;
         }
         else{
-            members.add(pokemon);
-            coding[members.size()-1] = pokemon.getNumber();
-            return true;
+            return coding[index];
         }
     }
 
-    public boolean changeMember(Pokemon pokemonToChange, Pokemon newPokemon){
-        if(members.remove(pokemonToChange)){
-            members.add(newPokemon);
-            for(int i=0; i<MAX_TEAM_MEMBERS; i++){
-                if(coding[i] == pokemonToChange.getNumber()){
-                    coding[i] = newPokemon.getNumber();
-                    break;
-                }
-            }
-            return true;
+    public void changeMember(int index, Pokemon newMember) {
+        if(index < 0  || index >= MAX_TEAM_MEMBERS){
+            return;
         }
-        return false;
-    }
-
-    public boolean isFull(){
-        return this.getMembers().size() >= MAX_TEAM_MEMBERS;
-    };
-
-    public boolean isEmpty(){
-        return members.isEmpty();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        PokemonTeam that = (PokemonTeam) o;
-        return Objects.equals(members, that.members);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(members);
+        else{
+            coding[index] = newMember;
+        }
     }
 
     @Override
     public String toString() {
-        return "PokemonTeam{" +
-                "members=" + members +
-                '}';
-    }
-
-    @Override
-    public Individual clone() throws CloneNotSupportedException {
-        PokemonTeam clone = (PokemonTeam) super.clone();
-
-        //Note: it doesn`t clone the pokemon
-        if (this.members != null) {
-            clone.members = new ArrayList<>(this.members);
-        }
-
-        return clone;
+        return "PokemonTeam=" + Arrays.toString(coding) + " Fitness=" + fitness;
     }
 }

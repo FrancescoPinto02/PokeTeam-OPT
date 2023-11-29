@@ -6,12 +6,8 @@ import pokemon.team.PokemonTeamGenerator;
 public class Test {
 
     public static void main(String[] args) throws CloneNotSupportedException {
-        PokemonTeam t1 = PokemonTeamGenerator.generatePokemonTeam();
-        System.out.println(t1.getCoding());
-        System.out.println(t1);
-        PokemonTeam t2 = (PokemonTeam) t1.clone();
-        t2.changeMember(t2.getMembers().get(0), PokemonGenerator.generatePokemon());
-        System.out.println(t2.getCoding());
+        PokemonTeam team = PokemonTeamGenerator.generatePokemonTeam(PokemonTeam.MAX_TEAM_MEMBERS);
+        System.out.println(team);
 
     }
 }
