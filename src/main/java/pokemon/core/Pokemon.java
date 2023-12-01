@@ -7,6 +7,11 @@ import pokemon.type.PokemonTypeName;
 import java.util.*;
 
 public class Pokemon {
+    public static final int MIN_TOTAL_STATS = 175;
+    public static final int MAX_TOTAL_STATS_STANDARD = 600;
+    public static final int MAX_TOTAL_STATS_LEGENDARY = 780;
+
+
     private int number; //national Pokédex number
     private String name;
     private PokemonType type1;
