@@ -2,6 +2,10 @@ package ga.fitness;
 
 import ga.individuals.PokemonTeam;
 import pokemon.core.Pokemon;
+import pokemon.type.PokemonType;
+import pokemon.type.PokemonTypeName;
+
+import java.util.HashSet;
 
 public class PokemonTeamFitnessFunction extends FitnessFunction<PokemonTeam> {
     private static final double MIN_FITNESS = 0;
@@ -13,7 +17,9 @@ public class PokemonTeamFitnessFunction extends FitnessFunction<PokemonTeam> {
 
     @Override
     public void evaluate(PokemonTeam individual) {
-        individual.setFitness(averageTeamStats(individual));
+        double fitness = averageTeamStats(individual) + typesDiversity(individual);
+        fitness = normalizeFitness(fitness, 0, 200, MIN_FITNESS, MAX_FITNESS);
+        individual.setFitness(fitness);
     }
 
     private double averageTeamStats(PokemonTeam individual){
@@ -32,7 +38,20 @@ public class PokemonTeamFitnessFunction extends FitnessFunction<PokemonTeam> {
         return normalizeFitness(total/n, Pokemon.MIN_TOTAL_STATS, Pokemon.MAX_TOTAL_STATS_STANDARD, MIN_FITNESS, MAX_FITNESS);
     }
 
+    private double typesDiversity(PokemonTeam individual){
+        HashSet<PokemonTypeName> teamTypes = new HashSet<>();
 
+        for(Pokemon p : individual.getCoding()){
+
+            teamTypes.add(p.getType1().getName());
+
+            if(p.getType2().getName() != PokemonTypeName.UNDEFINED){
+                teamTypes.add(p.getType2().getName());
+            }
+        }
+
+        return normalizeFitness(teamTypes.size(), 1, 12, MIN_FITNESS, MAX_FITNESS);
+    }
     private double normalizeFitness(double x, double minX, double maxX, double minY, double maxY){
         double normalizedFitness = (x - minX) / (maxX - minX) * (maxY - minY) + minY;
         return Math.max(0, Math.min(100, normalizedFitness));
