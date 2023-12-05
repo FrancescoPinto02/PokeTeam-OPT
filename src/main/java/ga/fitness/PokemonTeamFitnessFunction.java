@@ -5,6 +5,7 @@ import pokemon.core.Pokemon;
 import pokemon.type.PokemonType;
 import pokemon.type.PokemonTypeName;
 
+import java.lang.reflect.Type;
 import java.util.HashSet;
 
 public class PokemonTeamFitnessFunction extends FitnessFunction<PokemonTeam> {
@@ -17,8 +18,8 @@ public class PokemonTeamFitnessFunction extends FitnessFunction<PokemonTeam> {
 
     @Override
     public void evaluate(PokemonTeam individual) {
-        double fitness = averageTeamStats(individual) + typesDiversity(individual);
-        fitness = normalizeFitness(fitness, 0, 200, MIN_FITNESS, MAX_FITNESS);
+        double fitness = averageTeamStats(individual) + typesDiversity(individual) + teamResistances(individual);
+        fitness = normalizeFitness(fitness, 0, 300, MIN_FITNESS, MAX_FITNESS);
         individual.setFitness(fitness);
     }
 
@@ -52,6 +53,32 @@ public class PokemonTeamFitnessFunction extends FitnessFunction<PokemonTeam> {
 
         return normalizeFitness(teamTypes.size(), 1, 12, MIN_FITNESS, MAX_FITNESS);
     }
+
+    private double teamResistances(PokemonTeam individual){
+        HashSet<PokemonTypeName> teamResistances = new HashSet<>();
+        int minTeamResistances = 1;
+        int maxTeamResistances = 18;
+
+        for(Pokemon p : individual.getCoding()){
+            teamResistances.addAll(p.getResistances());
+        }
+
+        return normalizeFitness(teamResistances.size(), minTeamResistances, maxTeamResistances, MIN_FITNESS, MAX_FITNESS);
+    }
+
+    //Da sistemare
+    private double teamWeaknesses(PokemonTeam individual){
+        HashSet<PokemonTypeName> teamWeaknesses = new HashSet<>();
+        int minTeamWeaknesses = 1;
+        int maxTeamWeaknesses = 18;
+
+        for(Pokemon p : individual.getCoding()){
+            teamWeaknesses.addAll(p.getWeaknesses());
+        }
+
+        return normalizeFitness(teamWeaknesses.size(), maxTeamWeaknesses, minTeamWeaknesses, MIN_FITNESS, MAX_FITNESS);
+    }
+
     private double normalizeFitness(double x, double minX, double maxX, double minY, double maxY){
         double normalizedFitness = (x - minX) / (maxX - minX) * (maxY - minY) + minY;
         return Math.max(0, Math.min(100, normalizedFitness));
