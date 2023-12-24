@@ -3,6 +3,7 @@ import ga.individuals.Individual;
 import ga.individuals.PokemonTeam;
 import ga.initializer.PokemonTeamInitializer;
 import ga.operators.crossover.PokemonTeamSinglePointCrossover;
+import ga.operators.mutation.PokemonTeamSinglePointMutation;
 import ga.operators.selection.RouletteWheelSelection;
 import ga.population.FixedSizePopulation;
 import ga.population.Population;
@@ -19,6 +20,7 @@ public class Test {
         PokemonTeamFitnessFunction fitnessFunction = new PokemonTeamFitnessFunction();
         RouletteWheelSelection<PokemonTeam> selection = new RouletteWheelSelection<>();
         PokemonTeamSinglePointCrossover crossover = new PokemonTeamSinglePointCrossover();
+        PokemonTeamSinglePointMutation mutation = new PokemonTeamSinglePointMutation();
 
         population = (FixedSizePopulation<PokemonTeam>) initializer.initialize();
         fitnessFunction.evaluate(population);
@@ -39,5 +41,12 @@ public class Test {
         System.out.println(offsprings.getBestIndividual());
         System.out.println(offsprings.getAverageFitness());
         System.out.println(offsprings.size());
+
+        Population<PokemonTeam> mutatedPopulation = mutation.apply(matingPool, new Random());
+        fitnessFunction.evaluate(mutatedPopulation);
+        System.out.println(mutatedPopulation);
+        System.out.println(mutatedPopulation.getBestIndividual());
+        System.out.println(mutatedPopulation.getAverageFitness());
+        System.out.println(mutatedPopulation.size());
     }
 }
