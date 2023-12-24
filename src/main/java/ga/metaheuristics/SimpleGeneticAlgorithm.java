@@ -90,4 +90,16 @@ public class SimpleGeneticAlgorithm <T extends Individual> extends GeneticAlgori
         } while (iterations < maxIterations && !maxNoImprovementsExceeded);
         return new Results<>(this, generations, bestGeneration, log);
     }
+
+    public double getMutationProbability() {
+        return mutationProbability;
+    }
+
+    public int getMaxIterations() {
+        return maxIterations;
+    }
+
+    public int getMaxIterationsNoImprovements() {
+        return maxIterationsNoImprovements;
+    }
 }
