@@ -19,7 +19,6 @@ public class PokemonTeamFitnessFunction extends FitnessFunction<PokemonTeam> {
     @Override
     public void evaluate(PokemonTeam individual) {
         double fitness = averageTeamStats(individual) + typesDiversity(individual) + teamResistances(individual);
-        fitness = normalizeFitness(fitness, 0, 300, MIN_FITNESS, MAX_FITNESS);
         individual.setFitness(fitness);
     }
 
@@ -28,14 +27,13 @@ public class PokemonTeamFitnessFunction extends FitnessFunction<PokemonTeam> {
         int n = 0;
         for(Pokemon p : individual.getCoding()){
             if(p.getTotal() > Pokemon.MAX_TOTAL_STATS_STANDARD){
-                total += Pokemon.MAX_TOTAL_STATS_STANDARD;
+                total += 560;
             }
             else{
                 total += p.getTotal();
             }
             n++;
         }
-
         return normalizeFitness(total/n, Pokemon.MIN_TOTAL_STATS, Pokemon.MAX_TOTAL_STATS_STANDARD, MIN_FITNESS, MAX_FITNESS);
     }
 
@@ -64,19 +62,6 @@ public class PokemonTeamFitnessFunction extends FitnessFunction<PokemonTeam> {
         }
 
         return normalizeFitness(teamResistances.size(), minTeamResistances, maxTeamResistances, MIN_FITNESS, MAX_FITNESS);
-    }
-
-    //Da sistemare
-    private double teamWeaknesses(PokemonTeam individual){
-        HashSet<PokemonTypeName> teamWeaknesses = new HashSet<>();
-        int minTeamWeaknesses = 1;
-        int maxTeamWeaknesses = 18;
-
-        for(Pokemon p : individual.getCoding()){
-            teamWeaknesses.addAll(p.getWeaknesses());
-        }
-
-        return normalizeFitness(teamWeaknesses.size(), maxTeamWeaknesses, minTeamWeaknesses, MIN_FITNESS, MAX_FITNESS);
     }
 
     private double normalizeFitness(double x, double minX, double maxX, double minY, double maxY){
