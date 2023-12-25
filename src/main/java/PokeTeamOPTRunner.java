@@ -4,7 +4,7 @@ import ga.initializer.PokemonTeamInitializer;
 import ga.metaheuristics.SimpleGeneticAlgorithm;
 import ga.operators.crossover.PokemonTeamSinglePointCrossover;
 import ga.operators.mutation.PokemonTeamSinglePointMutation;
-import ga.operators.selection.RouletteWheelSelection;
+import ga.operators.selection.KTournamentSelection;
 import ga.results.Results;
 
 public class PokeTeamOPTRunner {
@@ -12,12 +12,13 @@ public class PokeTeamOPTRunner {
     public static void main(String[] args) throws CloneNotSupportedException {
         final int numberOfIndividuals = 50;
         final double mutationProbability = 1;
-        final int maxIterations = 1000;
-        final int maxIterationNoImprovements = 1000;
+        final int maxIterations = 200;
+        final int maxIterationNoImprovements = 200;
+        final int k = 5;
 
         PokemonTeamFitnessFunction fitnessFunction = new PokemonTeamFitnessFunction();
         PokemonTeamInitializer initializer = new PokemonTeamInitializer(numberOfIndividuals);
-        RouletteWheelSelection<PokemonTeam> selectionOperator = new RouletteWheelSelection<>();
+        KTournamentSelection<PokemonTeam> selectionOperator = new KTournamentSelection<>(k, numberOfIndividuals, false);
         PokemonTeamSinglePointCrossover crossoverOperator = new PokemonTeamSinglePointCrossover();
         PokemonTeamSinglePointMutation mutationOperator = new PokemonTeamSinglePointMutation();
 
