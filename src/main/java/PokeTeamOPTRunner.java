@@ -3,8 +3,10 @@ import ga.individuals.PokemonTeam;
 import ga.initializer.PokemonTeamInitializer;
 import ga.metaheuristics.SimpleGeneticAlgorithm;
 import ga.operators.crossover.PokemonTeamSinglePointCrossover;
+import ga.operators.crossover.PokemonTeamUniformCrossover;
 import ga.operators.mutation.PokemonSwapMutation;
 import ga.operators.selection.KTournamentSelection;
+import ga.operators.selection.RouletteWheelSelection;
 import ga.results.Results;
 
 public class PokeTeamOPTRunner {
@@ -18,11 +20,11 @@ public class PokeTeamOPTRunner {
 
         PokemonTeamFitnessFunction fitnessFunction = new PokemonTeamFitnessFunction();
         PokemonTeamInitializer initializer = new PokemonTeamInitializer(numberOfIndividuals);
-        KTournamentSelection<PokemonTeam> selectionOperator = new KTournamentSelection<>(k, numberOfIndividuals, true);
-        PokemonTeamSinglePointCrossover crossoverOperator = new PokemonTeamSinglePointCrossover();
+        KTournamentSelection<PokemonTeam> selectionOperator = new KTournamentSelection<>(k, numberOfIndividuals, false);
+        //PokemonTeamSinglePointCrossover crossoverOperator = new PokemonTeamSinglePointCrossover();
         PokemonSwapMutation mutationOperator = new PokemonSwapMutation(mutationProbability);
 
-
+        PokemonTeamUniformCrossover crossoverOperator = new PokemonTeamUniformCrossover();
         //RouletteWheelSelection<PokemonTeam> selectionOperator = new RouletteWheelSelection<>();
         //PokemonTeamSinglePointMutation mutationOperator = new PokemonTeamSinglePointMutation();
 
