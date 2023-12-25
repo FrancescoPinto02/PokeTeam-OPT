@@ -16,23 +16,37 @@ import java.util.Stack;
 
 public class SimpleGeneticAlgorithm <T extends Individual> extends GeneticAlgorithm<T>{
 
-    private final double mutationProbability;
-    private final int maxIterations;
-    private final int maxIterationsNoImprovements;
+    private final double mutationProbability; //Probabilità di applicare l`operatore di mutazione
+    private final int maxIterations; //Numero massimo di generazioni
+    private final int maxIterationsNoImprovements; //Numero massimo di generazioni senza miglioramenti
+
+
 
     public SimpleGeneticAlgorithm(FitnessFunction<T> fitnessFunction, Initializer<T> initializer,
                                   SelectionOperator<T> selectionOperator, CrossoverOperator<T> crossoverOperator,
                                   MutationOperator<T> mutationOperator, double mutationProbability,
                                   int maxIterations, int maxIterationsNoImprovements) {
         super(fitnessFunction, initializer, selectionOperator, crossoverOperator, mutationOperator);
+
+        //Se il valore fornito per la probabilità di mutazione non è valido
+        //la probabilità viene impostata automaticamente al 100%
         if (0.0 <= mutationProbability && mutationProbability <= 1.0) {
             this.mutationProbability = mutationProbability;
         } else {
-            this.mutationProbability = 0.1;
+            this.mutationProbability = 1;
         }
+
         this.maxIterations = Math.max(maxIterations, 1);
         this.maxIterationsNoImprovements = Math.max(maxIterationsNoImprovements, 0);
     }
+
+    //Se non viene fornito il parametro mutationProbability, viene impostato ad 1
+    public SimpleGeneticAlgorithm(FitnessFunction<T> fitnessFunction, Initializer<T> initializer,
+                                  SelectionOperator<T> selectionOperator, CrossoverOperator<T> crossoverOperator,
+                                  MutationOperator<T> mutationOperator, int maxIterations, int maxIterationsNoImprovements) {
+        this(fitnessFunction, initializer, selectionOperator, crossoverOperator, mutationOperator, 1, maxIterations, maxIterationsNoImprovements);
+    }
+
 
     @Override
     public Results<T> run() throws CloneNotSupportedException {
@@ -40,7 +54,7 @@ public class SimpleGeneticAlgorithm <T extends Individual> extends GeneticAlgori
         List<String> log = new ArrayList<>();
         Stack<Population<T>> generations = new Stack<>();
 
-        // Initialization of the first generation
+        // Inizializzazione della prima generazione
         generations.push(getInitializer().initialize());
         Population<T> firstGeneration = generations.peek();
         getFitnessFunction().evaluate(firstGeneration);
@@ -54,11 +68,11 @@ public class SimpleGeneticAlgorithm <T extends Individual> extends GeneticAlgori
             StringBuilder logEntry = new StringBuilder();
             Population<T> currentGeneration = generations.peek();
 
-            // Selection
+            // Selezione
             Population<T> matingPool = getSelectionOperator().apply(currentGeneration, rand);
             // Crossover
             Population<T> offsprings = getCrossoverOperator().apply(matingPool, rand);
-            // Mutation
+            // Mutazione
             Population<T> newGeneration = offsprings;
             if (rand.nextDouble() <= mutationProbability) {
                 newGeneration = getMutationOperator().apply(offsprings, rand);
@@ -68,7 +82,7 @@ public class SimpleGeneticAlgorithm <T extends Individual> extends GeneticAlgori
             iterations++;
             logEntry.append("Gen ").append(iterations).append(") ");
 
-            // Check if there is an average improvement
+            // Controlla se ci sono miglioramenti
             double bestAverageFitness = bestGeneration.getAverageFitness();
             double newAverageFitness = newGeneration.getAverageFitness();
             logEntry.append(newAverageFitness).append(" vs ").append(bestAverageFitness).append(" (NewAvg vs BestAvg)");
@@ -80,7 +94,7 @@ public class SimpleGeneticAlgorithm <T extends Individual> extends GeneticAlgori
                 logEntry.append(" ==> Improvement");
             } else {
                 iterationsNoImprovements++;
-                // Check if there is a limit of no improvements and this limit is exceeded
+                // Controlla se il limite di generazioni senza miglioramenti è stato superato
                 maxNoImprovementsExceeded = 0 < maxIterationsNoImprovements && maxIterationsNoImprovements < iterationsNoImprovements;
                 if (maxNoImprovementsExceeded) {
                     logEntry.append(" ==> Early Stop");
