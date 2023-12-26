@@ -7,7 +7,9 @@ import pokemon.type.PokemonType;
 import pokemon.type.PokemonTypeName;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 public class PokemonTeamFitnessFunction extends FitnessFunction<PokemonTeam> {
     private static final double MIN_FITNESS = 0;
@@ -23,7 +25,8 @@ public class PokemonTeamFitnessFunction extends FitnessFunction<PokemonTeam> {
             individual.setFitness(0);
         }
         else{
-            double fitness = averageTeamStats(individual) + typesDiversity(individual) + teamResistances(individual) + legendaryCount(individual);
+            double fitness = averageTeamStats(individual) + typesDiversity(individual) + teamResistances(individual)
+                    + legendaryCount(individual) + commonWeaknesses(individual);
             individual.setFitness(fitness);
         }
     }
@@ -91,6 +94,31 @@ public class PokemonTeamFitnessFunction extends FitnessFunction<PokemonTeam> {
             }
         }
         return count;
+    }
+
+    private double commonWeaknesses(PokemonTeam individual){
+        Map<PokemonTypeName, Integer> weaknessMap = new HashMap<>();
+        for(PokemonTypeName type : PokemonTypeName.values()){
+            weaknessMap.put(type,0);
+        }
+
+        for(Pokemon p : individual.getCoding()){
+            for(PokemonTypeName weakness : p.getWeaknesses()){
+                weaknessMap.put(weakness, weaknessMap.get(weakness)+1);
+            }
+        }
+
+        int total = 0;
+        int num = 0;
+        for(PokemonTypeName key : weaknessMap.keySet()){
+            int value = weaknessMap.get(key);
+            if(value>0){
+                total += value;
+                num++;
+            }
+        }
+
+        return normalizeFitness(total/num, total, 1, MIN_FITNESS, MAX_FITNESS);
     }
 
     private double normalizeFitness(double x, double minX, double maxX, double minY, double maxY){
