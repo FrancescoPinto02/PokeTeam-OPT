@@ -239,6 +239,15 @@ public class Pokemon {
         return weaknesses;
     }
 
+    public boolean isMegaEvolution(){
+        if(name.contains("Mega") && !name.equals("Meganium")){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     //Utility
     @Override
     public boolean equals(Object o) {

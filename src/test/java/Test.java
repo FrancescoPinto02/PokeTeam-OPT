@@ -1,12 +1,19 @@
+import pokemon.core.Pokemon;
 import pokemon.pokedex.Pokedex;
+
+import java.util.List;
 
 public class Test {
 
     public static void main(String[] args) throws CloneNotSupportedException {
         Pokedex pokedex = new Pokedex();
-        System.out.println(pokedex.getPokemon(151,0).getRarity());
-        System.out.println(pokedex.getPokemon(150,0).getRarity());
-        System.out.println(pokedex.getPokemon(149,0).getRarity());
-        System.out.println(pokedex.getPokemon(146,0).getRarity());
+        for(int i=0; i< pokedex.getMaxNumber(); i++){
+            List<Pokemon> pokemonList = pokedex.getPokemon(i);
+            for(Pokemon x : pokemonList){
+                if(x.isMegaEvolution()){
+                    System.out.println(x);
+                }
+            }
+        }
     }
 }
