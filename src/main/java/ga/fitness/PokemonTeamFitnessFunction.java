@@ -19,8 +19,13 @@ public class PokemonTeamFitnessFunction extends FitnessFunction<PokemonTeam> {
 
     @Override
     public void evaluate(PokemonTeam individual) {
-        double fitness = averageTeamStats(individual) + typesDiversity(individual) + teamResistances(individual) + legendaryCount(individual);
-        individual.setFitness(fitness);
+        if(megaEvolutionCount(individual) > 1){
+            individual.setFitness(0);
+        }
+        else{
+            double fitness = averageTeamStats(individual) + typesDiversity(individual) + teamResistances(individual) + legendaryCount(individual);
+            individual.setFitness(fitness);
+        }
     }
 
     private double averageTeamStats(PokemonTeam individual){
@@ -76,6 +81,16 @@ public class PokemonTeamFitnessFunction extends FitnessFunction<PokemonTeam> {
             }
         }
         return normalizeFitness(count, 6, 0, MIN_FITNESS, MAX_FITNESS);
+    }
+
+    private int megaEvolutionCount(PokemonTeam individual){
+        int count = 0;
+        for(Pokemon p : individual.getCoding()){
+            if(p.isMegaEvolution()){
+                count++;
+            }
+        }
+        return count;
     }
 
     private double normalizeFitness(double x, double minX, double maxX, double minY, double maxY){

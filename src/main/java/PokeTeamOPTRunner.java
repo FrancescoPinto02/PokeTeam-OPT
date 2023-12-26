@@ -14,7 +14,7 @@ public class PokeTeamOPTRunner {
     public static void main(String[] args) throws CloneNotSupportedException {
         final int numberOfIndividuals = 50;
         final double mutationProbability = 0.2;
-        final int maxIterations = 100;
+        final int maxIterations = 150;
         final int maxIterationNoImprovements = 25000;
         final int k = 5;
 
