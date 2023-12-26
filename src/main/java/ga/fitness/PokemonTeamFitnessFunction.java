@@ -2,6 +2,7 @@ package ga.fitness;
 
 import ga.individuals.PokemonTeam;
 import pokemon.core.Pokemon;
+import pokemon.core.PokemonRarity;
 import pokemon.type.PokemonType;
 import pokemon.type.PokemonTypeName;
 
@@ -18,7 +19,7 @@ public class PokemonTeamFitnessFunction extends FitnessFunction<PokemonTeam> {
 
     @Override
     public void evaluate(PokemonTeam individual) {
-        double fitness = averageTeamStats(individual) + typesDiversity(individual) + teamResistances(individual);
+        double fitness = averageTeamStats(individual) + typesDiversity(individual) + teamResistances(individual) + legendaryCount(individual);
         individual.setFitness(fitness);
     }
 
@@ -62,6 +63,19 @@ public class PokemonTeamFitnessFunction extends FitnessFunction<PokemonTeam> {
         }
 
         return normalizeFitness(teamResistances.size(), minTeamResistances, maxTeamResistances, MIN_FITNESS, MAX_FITNESS);
+    }
+
+    private double legendaryCount(PokemonTeam individual){
+        double count = 0;
+        for(Pokemon x : individual.getCoding()){
+            PokemonRarity rarity = x.getRarity();
+            if(rarity == PokemonRarity.LEGENDARY || rarity == PokemonRarity.MYTHICAL){
+                count += 2;
+            } else if (rarity == PokemonRarity.SUB_LEGENDARY || rarity == PokemonRarity.PARADOX) {
+                count += 1;
+            }
+        }
+        return normalizeFitness(count, 6, 0, MIN_FITNESS, MAX_FITNESS);
     }
 
     private double normalizeFitness(double x, double minX, double maxX, double minY, double maxY){
