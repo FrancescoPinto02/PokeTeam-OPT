@@ -23,13 +23,15 @@ public class Pokemon {
     private int specialAttack;
     private int specialDefense;
     private int speed;
+    private PokemonRarity rarity;
+
 
     private Set<PokemonTypeName> resistances;
     private Set<PokemonTypeName> weaknesses;
 
 
     //Constructors
-    public Pokemon(int number, String name, PokemonType type1, PokemonType type2, int total, int hp, int attack, int defense, int specialAttack, int specialDefense, int speed) {
+    public Pokemon(int number, String name, PokemonType type1, PokemonType type2, int total, int hp, int attack, int defense, int specialAttack, int specialDefense, int speed, PokemonRarity rarity) {
         this.number = number;
         this.name = name;
         this.type1 = (type1==null) ? new PokemonType(PokemonTypeName.UNDEFINED) : type1;
@@ -41,14 +43,16 @@ public class Pokemon {
         this.specialAttack = specialAttack;
         this.specialDefense = specialDefense;
         this.speed = speed;
+        this.rarity = rarity;
+
         resistances = new HashSet<>();
         weaknesses = new HashSet<>();
         calculateResistances();
         calculateWeaknesses();
     }
 
-    public Pokemon(int number, String name, PokemonType type1, PokemonType type2, int hp, int attack, int defense, int specialAttack, int specialDefense, int speed) {
-        this(number, name, type1, type2, (hp + attack + defense + specialAttack + specialDefense + speed), hp, attack, defense, specialAttack, specialDefense, speed);
+    public Pokemon(int number, String name, PokemonType type1, PokemonType type2, int hp, int attack, int defense, int specialAttack, int specialDefense, int speed, PokemonRarity rarity) {
+        this(number, name, type1, type2, (hp + attack + defense + specialAttack + specialDefense + speed), hp, attack, defense, specialAttack, specialDefense, speed, rarity);
     }
 
     //Calcola automaticamente tutte le resistenze in base ai due Type del pokemon
@@ -217,6 +221,14 @@ public class Pokemon {
 
     public void setSpeed(int speed) {
         this.speed = speed;
+    }
+
+    public PokemonRarity getRarity() {
+        return rarity;
+    }
+
+    public void setRarity(PokemonRarity rarity) {
+        this.rarity = rarity;
     }
 
     public Set<PokemonTypeName> getResistances() {

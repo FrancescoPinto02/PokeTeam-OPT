@@ -5,6 +5,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import pokemon.core.Pokemon;
+import pokemon.core.PokemonRarity;
 import pokemon.type.PokemonType;
 import pokemon.type.PokemonTypeName;
 import pokemon.type.PokemonTypePool;
@@ -59,7 +60,9 @@ public class Pokedex {
                 int spDef = Integer.parseInt((String) jsonObject.get("Sp. Def"));
                 int speed = Integer.parseInt((String) jsonObject.get("Speed"));
 
-                Pokemon pokemon = new Pokemon(number, name, type1, type2, total, hp, att, def, spAtt, spDef, speed);
+                PokemonRarity rarity = mapToPokemonRarity((String) jsonObject.get("Rarity"));
+
+                Pokemon pokemon = new Pokemon(number, name, type1, type2, total, hp, att, def, spAtt, spDef, speed, rarity);
                 addPokemon(pokemon);
             }
             reader.close();
@@ -109,6 +112,22 @@ public class Pokedex {
             List<Pokemon> pokemonList = new ArrayList<>(); //create a new list
             pokemonList.add(pokemon); //add pokemon at the new list
             pokemons.put(number,pokemonList); //add the new list in the map
+        }
+    }
+
+    private PokemonRarity mapToPokemonRarity(String string){
+        if(string != null){
+            return switch (string) {
+                case "Pseudo-Legendary" -> PokemonRarity.PSEUDO_LEGENDARY;
+                case "Sub-Legendary" -> PokemonRarity.SUB_LEGENDARY;
+                case "Legendary" -> PokemonRarity.LEGENDARY;
+                case "Mythical" -> PokemonRarity.MYTHICAL;
+                case "Paradox" -> PokemonRarity.PARADOX;
+                default -> PokemonRarity.COMMON;
+            };
+        }
+        else{
+            return PokemonRarity.COMMON;
         }
     }
 
