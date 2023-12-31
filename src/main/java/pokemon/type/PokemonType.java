@@ -5,11 +5,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Classe che rappresenta il tipo di un Pokemon con informazioni sul nome del tipo,
+ * le proprietà offensive e le proprietà difensive
+ */
 public class PokemonType {
-    private PokemonTypeName name;
-    private Map<PokemonTypeName, Double> offensiveProperties;
-    private Map<PokemonTypeName, Double> DefensiveProperties;
+    private PokemonTypeName name; //Nome del tipo
+    private Map<PokemonTypeName, Double> offensiveProperties; //Moltiplicatori offensivi contro gli altri tipi
+    private Map<PokemonTypeName, Double> DefensiveProperties;  //Moltiplicatori difensivi contro gli altri tipi
 
+    //Costruttori
     public PokemonType(PokemonTypeName name, Map<PokemonTypeName, Double> offensiveProperties, Map<PokemonTypeName, Double> defensiveProperties) {
         this.name = name;
         this.offensiveProperties = offensiveProperties;
@@ -21,6 +26,7 @@ public class PokemonType {
     }
 
 
+    //Getters e Setters
     public PokemonTypeName getName() {
         return name;
     }
@@ -45,6 +51,7 @@ public class PokemonType {
         DefensiveProperties = defensiveProperties;
     }
 
+    //Utility
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
