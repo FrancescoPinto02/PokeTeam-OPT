@@ -14,31 +14,38 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * Classe utilizzate per gestire il Pokedex
+ */
 public class Pokedex {
-    private static final String DEFAULT_POKEDEX_FILE = "src/main/java/pokemon/pokedex/pokedex_data.json";
-    private PokemonTypePool typePool;
-    private HashMap<Integer, List<Pokemon>> pokemons;
-    private int maxNumber;
+    private static final String DEFAULT_POKEDEX_FILE = "src/main/java/pokemon/pokedex/pokedex_data.json"; //Directory dataset di default
+    private PokemonTypePool typePool; //Pool di tipi Pokemon
+    private HashMap<Integer, List<Pokemon>> pokemons; //Hashmap di Pokemon
+    private int maxNumber; //Numero massimo del pokedex
 
+    /**
+     * Costruttore del pokedex. Tutti i dati necessari a riempire il pokedex
+     * verranno letti da un apposito file JSON
+     */
     public Pokedex() {
         typePool = new PokemonTypePool();
         pokemons = new HashMap<>();
 
         try{
-            //Read JSON file
+            //Lettura file JSON
             FileReader reader = new FileReader(DEFAULT_POKEDEX_FILE);
 
-            //Parsing the JSON file
+            //Parsing del file JSON
             JSONParser parser = new JSONParser();
             JSONArray jsonArray = (JSONArray) parser.parse(reader);
 
             int number = 0;
 
-            //Iterate the array
+            //Itera l`array
             for(Object obj : jsonArray){
                 JSONObject jsonObject = (JSONObject) obj; //retrieve object
 
-                //Obtain the fields
+                //Ottieni i vari campi
                 number = Integer.parseInt((String) jsonObject.get("#"));
                 String name = (String) jsonObject.get("Name");
 
@@ -62,7 +69,10 @@ public class Pokedex {
 
                 PokemonRarity rarity = mapToPokemonRarity((String) jsonObject.get("Rarity"));
 
+                //crea un nuovo pokemon con i campi appena letti
                 Pokemon pokemon = new Pokemon(number, name, type1, type2, total, hp, att, def, spAtt, spDef, speed, rarity);
+
+                //aggiungi il pokemon al pokedex
                 addPokemon(pokemon);
             }
             reader.close();
@@ -78,43 +88,60 @@ public class Pokedex {
         return maxNumber;
     }
 
-    //Retrieve a list of Pokémon with number = number from HashMap pokemon
-    //ATTENTION: The list can contain variant version of a Pokémon that have the same number but can differ for name, types and stats
+
+    /**
+     * Recupera una lista di Pokemon dal pokedex che corrispondono al numero specificato.
+     * Ad un numero possono corrispondere diverse varianti di uno stesso pokemon che si differenziano
+     * per tipo e statistiche.
+     *
+     * @param number Numero dei pokemon da recuperare
+     * @return Lista di pokemon
+     */
     public List<Pokemon> getPokemon(int number){
         return pokemons.getOrDefault(number, new ArrayList<>());
     }
 
-    //Return the variant of the pokemon with the specified number at the specified index position
-    //ATTENTION: Can return null
+    /**
+     * Recupera un Pokemon dal pokedex che corrispondono al numero e alla variante specificati.
+     *
+     * @param number Numero del pokemon da recuperare
+     * @param index Indice della variante da recuperare
+     * @return Pokemon cercato o la prima variante se index non è valido
+     */
     public Pokemon getPokemon(int number, int index){
         List<Pokemon> pokemonList = getPokemon(number);
         if(pokemonList.isEmpty()){
-            return null; //return null if there is not pokemon with the specified number
+            return null; //restituisce null se non ci sono pokemon con il numero specificato
         }
 
         if(index >= 0 && index < pokemonList.size()){
-            return pokemonList.get(index); //return the Pokémon at the specified index if it is in range
+            return pokemonList.get(index); //restituisce la variante specificata se l`indice è valido
         }
         else{
-            return pokemonList.get(0); //return the first pokemon of the list if the index is not in range
+            return pokemonList.get(0); //restituisce la prima variante se l`indice non è valido
         }
     }
 
-    //Add a pokemon to the HashMap pokemons
+    /**
+     * Permette di aggiungere un nuovo pokemon al Pokedex
+     *
+     * @param pokemon Pokemon da aggiungere
+     */
     public void addPokemon(Pokemon pokemon){
         int number = pokemon.getNumber();
 
-        //Check if there is already a list of pokemon with this key
+       //Verifica se già esiste un pokemon con quel numero
         if(pokemons.containsKey(number)){
-            pokemons.get(number).add(pokemon); //add the pokemon at the existent list
+            pokemons.get(number).add(pokemon); //aggiunge il pokemon alla lista esistente
         }
         else{
-            List<Pokemon> pokemonList = new ArrayList<>(); //create a new list
-            pokemonList.add(pokemon); //add pokemon at the new list
-            pokemons.put(number,pokemonList); //add the new list in the map
+            List<Pokemon> pokemonList = new ArrayList<>(); //crea una nuova lista
+            pokemonList.add(pokemon); //aggiunge il pokemon alla nuova lista
+            pokemons.put(number,pokemonList); //inserisce la lista nella hashmap
         }
     }
 
+    //Metodo per mappare una stringa indicante la rarità di un Pokemon nell`enum corrispondente
     private PokemonRarity mapToPokemonRarity(String string){
         if(string != null){
             return switch (string) {
