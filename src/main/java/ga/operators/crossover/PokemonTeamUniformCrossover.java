@@ -33,6 +33,7 @@ public class PokemonTeamUniformCrossover extends CrossoverOperator<PokemonTeam>{
         int lenght = Math.min(genes1.length, genes2.length);
         Pokemon[] offspringGene = new Pokemon[lenght];
 
+        //Seleziona l`i-esimo gene casualmente dai genitori
         for(int i=0; i<lenght; i++){
             if(rand.nextBoolean()){
                 offspringGene[i] = genes1[i];

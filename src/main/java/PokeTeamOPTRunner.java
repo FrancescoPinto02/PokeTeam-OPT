@@ -3,6 +3,7 @@ import ga.individuals.PokemonTeam;
 import ga.initializer.PokemonTeamInitializer;
 import ga.metaheuristics.SimpleGeneticAlgorithm;
 import ga.operators.crossover.PokemonTeamSinglePointCrossover;
+import ga.operators.crossover.PokemonTeamTwoPointCrossover;
 import ga.operators.crossover.PokemonTeamUniformCrossover;
 import ga.operators.mutation.PokemonSwapMutation;
 import ga.operators.selection.KTournamentSelection;
@@ -12,21 +13,24 @@ import ga.results.Results;
 public class PokeTeamOPTRunner {
 
     public static void main(String[] args) throws CloneNotSupportedException {
-        final int numberOfIndividuals = 50;
-        final double mutationProbability = 0.20;
-        final int maxIterations = 100;
+        final int numberOfIndividuals = 30;
+        final double mutationProbability = 0.3;
+        final int maxIterations = 200;
         final int maxIterationNoImprovements = 50;
         final int k = 5;
 
         PokemonTeamFitnessFunction fitnessFunction = new PokemonTeamFitnessFunction();
         PokemonTeamInitializer initializer = new PokemonTeamInitializer(numberOfIndividuals);
+
         KTournamentSelection<PokemonTeam> selectionOperator = new KTournamentSelection<>(k, numberOfIndividuals, false);
-        //PokemonTeamSinglePointCrossover crossoverOperator = new PokemonTeamSinglePointCrossover();
+        //RouletteWheelSelection<PokemonTeam> selectionOperator = new RouletteWheelSelection<>();
+
+
         PokemonSwapMutation mutationOperator = new PokemonSwapMutation(mutationProbability);
 
         PokemonTeamUniformCrossover crossoverOperator = new PokemonTeamUniformCrossover();
-        //RouletteWheelSelection<PokemonTeam> selectionOperator = new RouletteWheelSelection<>();
-        //PokemonTeamSinglePointMutation mutationOperator = new PokemonTeamSinglePointMutation();
+        //PokemonTeamSinglePointCrossover crossoverOperator = new PokemonTeamSinglePointCrossover();
+        //PokemonTeamTwoPointCrossover crossoverOperator = new PokemonTeamTwoPointCrossover();
 
         SimpleGeneticAlgorithm<PokemonTeam> geneticAlgorithm = new SimpleGeneticAlgorithm<>(fitnessFunction, initializer, selectionOperator, crossoverOperator,
                 mutationOperator, maxIterations, maxIterationNoImprovements);
