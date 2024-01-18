@@ -6,12 +6,18 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * A class used to generate random pokemon through the static method generatePokemon(), that takes a random
- * Pokemon from the Pokedex and return it.
+ * Classe utilizzata per generare un Pokemon selezionandolo casualmente dal Pokedex
  */
-public class PokemonGenerator {
+public final class PokemonGenerator {
     private static final Pokedex pokedex = new Pokedex();
 
+    private PokemonGenerator(){}
+
+    /**
+     * Genera un pokemon selezionandolo casualmente dal pokedex
+     *
+     * @return Pokemon casuale
+     */
     public static Pokemon generatePokemon(){
         Random random = new Random();
         List<Pokemon> pokemonList = pokedex.getPokemon(random.nextInt(pokedex.getMaxNumber())+1);

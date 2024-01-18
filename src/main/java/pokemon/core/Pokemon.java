@@ -6,31 +6,35 @@ import pokemon.type.PokemonTypeName;
 
 import java.util.*;
 
+/**
+ * Classe utilizzata per rappresentare un pokemon con tutte le sue caratteristiche
+ */
 public class Pokemon {
+    //NB: i seguenti valori sono solo il risultato di un analisi del dataset
     public static final int MIN_TOTAL_STATS = 175;
     public static final int MAX_TOTAL_STATS_STANDARD = 600;
     public static final int MAX_TOTAL_STATS_LEGENDARY = 780;
 
 
-    private int number; //national Pokédex number
-    private String name;
-    private PokemonType type1;
-    private PokemonType type2;
-    private int total; //sum of all the stats
-    private int hp;
-    private int attack;
-    private int defense;
-    private int specialAttack;
-    private int specialDefense;
-    private int speed;
-    private PokemonRarity rarity;
+    private int number; //numero del pokedex nazionale
+    private String name; //nome del Pokemon
+    private PokemonType type1; //Primo Tipo del Pokemon
+    private PokemonType type2; //Secondo Tipo del Pokemon (non tutti hanno un secondo tipo)
+    private int total; //somma di tutte le statistiche
+    private int hp; //Vita
+    private int attack; //Attacco
+    private int defense; //Difesa
+    private int specialAttack; //Attacco Speciale
+    private int specialDefense; //Difesa Speciale
+    private int speed; //Velocità
+    private PokemonRarity rarity; //Rarità
 
 
-    private Set<PokemonTypeName> resistances;
-    private Set<PokemonTypeName> weaknesses;
+    private Set<PokemonTypeName> resistances; //Resistenze
+    private Set<PokemonTypeName> weaknesses; //Debolezze
 
 
-    //Constructors
+    //Costruttori
     public Pokemon(int number, String name, PokemonType type1, PokemonType type2, int total, int hp, int attack, int defense, int specialAttack, int specialDefense, int speed, PokemonRarity rarity) {
         this.number = number;
         this.name = name;
@@ -125,6 +129,7 @@ public class Pokemon {
             }
         }
     }
+
 
     //Getter and Setters
     public int getNumber() {
@@ -240,6 +245,7 @@ public class Pokemon {
     }
 
     public boolean isMegaEvolution(){
+        //Meganium è l`unico pokemon che contiene Mega nel nome ma non è una Megaevoluzione
         if(name.contains("Mega") && !name.equals("Meganium")){
             return true;
         }
