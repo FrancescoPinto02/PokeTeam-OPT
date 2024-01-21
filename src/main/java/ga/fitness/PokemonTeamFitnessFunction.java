@@ -16,9 +16,9 @@ public class PokemonTeamFitnessFunction extends FitnessFunction<PokemonTeam> {
     private static final double MAX_FITNESS = 100;
 
     //Pesi utilizzabili per le varie funzioni di fitness
-    private static final double LOW_WEIGHT = 0.75;
+    private static final double LOW_WEIGHT = 0.5;
     private static final double NORMAL_WEIGHT = 1;
-    private static final double HIGH_WEIGHT = 1.25;
+    private static final double HIGH_WEIGHT = 1.5;
 
     public PokemonTeamFitnessFunction() {
         super(true);
@@ -31,10 +31,10 @@ public class PokemonTeamFitnessFunction extends FitnessFunction<PokemonTeam> {
             individual.setFitness(0);
         }
         else{
-            double fitness = NORMAL_WEIGHT * averageTeamStats(individual) + NORMAL_WEIGHT * typesDiversity(individual) + HIGH_WEIGHT * teamResistances(individual)
+            double fitness = HIGH_WEIGHT * averageTeamStats(individual) + NORMAL_WEIGHT * typesDiversity(individual) + NORMAL_WEIGHT * teamResistances(individual)
                     + NORMAL_WEIGHT * legendaryCount(individual) + HIGH_WEIGHT * commonWeaknesses(individual);
 
-            fitness = normalizeFitness(fitness, 0, (LOW_WEIGHT*MAX_FITNESS*0)+(NORMAL_WEIGHT*MAX_FITNESS*3)+(HIGH_WEIGHT*MAX_FITNESS*2), MIN_FITNESS, MAX_FITNESS);
+            //fitness = normalizeFitness(fitness, 0, (LOW_WEIGHT*MAX_FITNESS*0)+(NORMAL_WEIGHT*MAX_FITNESS*3)+(HIGH_WEIGHT*MAX_FITNESS*2), MIN_FITNESS, MAX_FITNESS);
             individual.setFitness(fitness);
         }
     }
@@ -45,7 +45,7 @@ public class PokemonTeamFitnessFunction extends FitnessFunction<PokemonTeam> {
         int n = 0;
         for(Pokemon p : individual.getCoding()){
             if(p.getTotal() > Pokemon.MAX_TOTAL_STATS_STANDARD){
-                total += 575; //se il pokemon è leggendario gli attribuisce un totale più basso
+                total += 600; //se il pokemon è leggendario gli attribuisce un totale più basso
             }
             else{
                 total += p.getTotal();

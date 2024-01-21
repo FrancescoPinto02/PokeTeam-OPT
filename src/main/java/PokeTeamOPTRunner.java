@@ -13,11 +13,11 @@ import ga.results.Results;
 public class PokeTeamOPTRunner {
 
     public static void main(String[] args) throws CloneNotSupportedException {
-        final int numberOfIndividuals = 30;
+        final int numberOfIndividuals = 100;
         final double mutationProbability = 0.3;
-        final int maxIterations = 200;
-        final int maxIterationNoImprovements = 50;
-        final int k = 5;
+        final int maxIterations = 35;
+        final int maxIterationNoImprovements = 600;
+        final int k = 5; //tournament selection size
 
         PokemonTeamFitnessFunction fitnessFunction = new PokemonTeamFitnessFunction();
         PokemonTeamInitializer initializer = new PokemonTeamInitializer(numberOfIndividuals);
