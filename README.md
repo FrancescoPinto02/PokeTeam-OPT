@@ -1,4 +1,4 @@
-<img src="https://github.com/FrancescoPinto02/PokeTeam-OPT/blob/master/img/logo.png?raw=true" alt="logo.png">
+<img src="https://github.com/FrancescoPinto02/PokeTeam-OPT/blob/main/img/logo.png?raw=true" alt="logo.png">
 
 # Descrizione del Progetto
 PokeTeam-OPT è un progetto innovativo che sfrutta le potenzialità degli algoritmi genetici per ottimizzare i team di Pokémon. 
