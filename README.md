@@ -36,4 +36,4 @@ L'algoritmo genetico inizierà l'ottimizzazione e fornirà i risultati nella con
 # Link Utili
 Tool di analisi dei risultati consigliato: https://richi3f.github.io/pokemon-team-planner/plan/#home
 
-Documentazione progetto: https://github.com/FrancescoPinto02/PokeTeam-OPT/blob/master/PokeTeam-OPT.pdf
+Documentazione progetto: https://github.com/FrancescoPinto02/PokeTeam-OPT/blob/main/PokeTeam-OPT.pdf
